@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control | Jarvis RedGPS</title>
+    <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        .welcome-card { text-align: center; background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #1a73e8; }
+    </style>
+</head>
+<body>
+
+    <div class="welcome-card">
+        <h1>Asistente Inteligente RedGPS</h1>
+        <p>Inicia sesión con Jarvis para gestionar tus activos y licencias.</p>
+    </div>
+
+    <script defer src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js"></script>
+    <script>
+        window.addEventListener("chat-messenger-loaded", () => {
+            chatSdk.registerContext(
+                chatSdk.prebuilts.ces.createContext({
+                    deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a", // El ID de tu imagen
+                    tokenBroker: {
+                        enableTokenBroker: false, // Ponlo en FALSE para pruebas rápidas si no tienes auth configurada
+                        enableRecaptcha: false,
+                    },
+                })
+            );
+        });
+    </script>
+</body>
+</html>

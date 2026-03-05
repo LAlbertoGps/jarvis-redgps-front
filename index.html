@@ -2,41 +2,42 @@
 <html lang="es">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script defer
-  src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js">
+   <script defer
+    src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js">
   </script>
   <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger-default.css">
   <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.10/themes/chat-messenger-layout.css">
   </head>
   <body>
-   <script>
-    window.addEventListener("chat-messenger-loaded", () => {
-      chatSdk.registerContext(
-        chatSdk.prebuilts.ces.createContext({
-          deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/02855d32-97c5-46a7-9109-245b64cd0b69",
-          tokenBroker: {
-            enableTokenBroker: true,
-            enableRecaptcha: false,
-          },
-        }),
-      );
-    });
-</script>
-<!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->
-<chat-messenger
-  url-allowlist="*"
->
-  <chat-messenger-container
-    chat-title="REDGPS"
-    chat-title-icon="https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png"
-    enable-file-upload
-    enable-audio-input
+     <script>
+      window.addEventListener("chat-messenger-loaded", () => {
+        chatSdk.registerContext(
+          chatSdk.prebuilts.ces.createContext({
+            deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/ac015a5a-88f9-4b9e-915a-c1dcde31fba1",
+            tokenBroker: {
+              enableTokenBroker: true,
+              enableRecaptcha: false,
+            },
+          }),
+        );
+      });
+  </script>
+  <!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->
+  <chat-messenger
+    url-allowlist="*"
+    color-scheme="dark"
   >
-    <chat-reset-session-button
-      slot="titlebar-actions"
-      title-text="Start new chat"
-    ></chat-reset-session-button>
-  </chat-messenger-container>
-</chat-messenger>
+    <chat-messenger-container
+      chat-title="REDGPS"
+      chat-title-icon="https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png"
+      enable-file-upload
+      enable-audio-input
+    >
+      <chat-reset-session-button
+        slot="titlebar-actions"
+        title-text="Start new chat"
+      ></chat-reset-session-button>
+    </chat-messenger-container>
+  </chat-messenger>
 </body>
 </html>

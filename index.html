@@ -27,56 +27,64 @@
 </chat-messenger>
 
 <script>
-    // Esperar a que el SDK esté completamente cargado
     function initializeChat() {
         if (typeof chatSdk === 'undefined') {
-            console.log('⏳ Esperando a que chatSdk esté disponible...');
             setTimeout(initializeChat, 100);
             return;
         }
 
-        console.log('✅ chatSdk cargado correctamente');
-
         try {
-            // 1️⃣ Crear el contexto con los parámetros de autenticación
+            // Configurar el contexto
             const context = chatSdk.prebuilts.ces.createContext({
                 deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
                 tokenBroker: {
                     enableTokenBroker: true,
                     enableRecaptcha: false,
-                },
-                // 👇 Aquí van los parámetros de autenticación
-                userInfo: {
-                    token: "Juan Pérez",
-                    apikey: "12345",
-                    user: "premium"
                 }
             });
 
-            // 2️⃣ Registrar el contexto
             chatSdk.registerContext(context);
-            console.log('✅ Contexto registrado con autenticación');
-
-            // 3️⃣ Opcional: Verificar que el contexto se aplicó
+            
+            // 👇 ESCUCHAR TODOS LOS EVENTOS DEL CHAT
             const messenger = document.querySelector("chat-messenger");
-            if (messenger) {
-                // Escuchar eventos de conexión
-                messenger.addEventListener('chat-connected', () => {
-                    console.log('🔌 Chat conectado con autenticación');
+            
+            // Lista de eventos posibles
+            const eventos = [
+                'chat-connected',
+                'chat-disconnected',
+                'chat-error',
+                'chat-message-received',
+                'chat-message-sent',
+                'chat-typing-indicator',
+                'chat-session-reset',
+                'chat-authentication-error',
+                'chat-network-error'
+            ];
+
+            eventos.forEach(evento => {
+                messenger.addEventListener(evento, (e) => {
+                    console.log(`📡 EVENTO: ${evento}`, e.detail);
                 });
-            }
+            });
+
+            // 👇 CAPTURAR ERRORES ESPECÍFICOS DE AUTENTICACIÓN
+            messenger.addEventListener('chat-error', (e) => {
+                console.error('❌ ERROR DETALLADO:', {
+                    tipo: e.detail?.type,
+                    codigo: e.detail?.code,
+                    mensaje: e.detail?.message,
+                    detalles: e.detail
+                });
+            });
+
+            console.log('✅ Sistema de depuración activado');
 
         } catch (error) {
-            console.error('❌ Error al inicializar:', error);
+            console.error('❌ Error en inicialización:', error);
         }
     }
 
-    // Iniciar cuando el DOM esté listo
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeChat);
-    } else {
-        initializeChat();
-    }
+    document.addEventListener('DOMContentLoaded', initializeChat);
 </script>
 
 </body>

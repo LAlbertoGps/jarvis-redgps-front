@@ -48,10 +48,26 @@
 <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.10/themes/chat-messenger-layout.css">
 </head>
 <body>
-
-<chat-messenger url-allowlist="*" color-scheme="dark">
+<script>
+    window.addEventListener("chat-messenger-loaded", () => {
+      chatSdk.registerContext(
+        chatSdk.prebuilts.ces.createContext({
+          deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/ffb9145a-e0bf-43cc-a5cb-4bf4814cc8a6",
+          tokenBroker: {
+            enableTokenBroker: true,
+            enableRecaptcha: false,
+          },
+        }),
+      );
+    });
+</script>
+<!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->
+<chat-messenger
+  url-allowlist="*"
+  color-scheme="dark"
+>
   <chat-messenger-container
-    chat-title="Redgpsv2"
+    chat-title="REDGPSV4"
     chat-title-icon="https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png"
     enable-file-upload
     enable-audio-input
@@ -62,20 +78,6 @@
     ></chat-reset-session-button>
   </chat-messenger-container>
 </chat-messenger>
-
-<script>
-  window.addEventListener("chat-messenger-loaded", () => {
-    chatSdk.registerContext(
-      chatSdk.prebuilts.ces.createContext({
-        deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
-        tokenBroker: {
-          enableTokenBroker: true,
-          enableRecaptcha: false,
-        },
-      }),
-    );
-  });
-</script>
 
 </body>
 </html>

@@ -2,36 +2,42 @@
 <html lang="es">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-<script defer
-  src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js">
-</script>
-<link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger-default.css">
-<link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.10/themes/chat-messenger-layout.css">
-  </head>
-  <body>
-<script>
-   <script>
-        // HARDCODEO DIRECTO: Solo para pruebas
-        const usuarioApiKey = "AQUI_PEGAS_TU_APIKEY_REAL"; 
-        const usuarioToken = "AQUI_PEGAS_TU_TOKEN_REAL";
-        const nombreUsuario = "Alejandro"; 
+  <script defer src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js"></script>
+  <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger-default.css">
+  <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.10/themes/chat-messenger-layout.css">
+</head>
+<body>
 
-        window.addEventListener("chat-messenger-loaded", () => {
-            chatSdk.registerContext(
-                chatSdk.prebuilts.ces.createContext({
-                    deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/38bd2473-e1c4-4a70-ae2d-d5d2d233b095",
-                    tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
-                })
-            );
-        });
-    </script>
+<script>
+    window.addEventListener("chat-messenger-loaded", () => {
+        // 1. Registramos el contexto base
+        chatSdk.registerContext(
+            chatSdk.prebuilts.ces.createContext({
+                deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/38bd2473-e1c4-4a70-ae2d-d5d2d233b095",
+                tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
+            })
+        );
+
+        // 2. Buscamos el widget en la pantalla e inyectamos las credenciales
+        const chatElement = document.querySelector('chat-messenger');
+        if (chatElement) {
+            
+            // HARDCODEO DIRECTO: Sustituye esto por tu apikey y token reales
+            chatElement.setQueryParameters({
+                parameters: {
+                    apikey: "AQUI_PEGAS_TU_APIKEY_REAL",
+                    token: "AQUI_PEGAS_TU_TOKEN_REAL",
+                    user: "Alejandro"
+                }
+            });
+            console.log("Credenciales inyectadas exitosamente. Jarvis está listo.");
+        }
+    });
 </script>
-<!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->
-<chat-messenger
-  url-allowlist="*"
->
+
+<chat-messenger url-allowlist="*">
   <chat-messenger-container
-    chat-title="redgps"
+    chat-title="Gestor de tareas"
     chat-title-icon="https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png"
     enable-file-upload
     enable-audio-input
@@ -42,5 +48,6 @@
     ></chat-reset-session-button>
   </chat-messenger-container>
 </chat-messenger>
+
 </body>
 </html>

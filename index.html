@@ -19,14 +19,21 @@
             chatSdk.registerContext(
                 chatSdk.prebuilts.ces.createContext({
                     deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/828a3109-a4a6-44e0-908e-8c89517ae027",
-                    tokenBroker: { enableTokenBroker: true, enableRecaptcha: false },
-                    variables: {
-                        apikey: usuarioApiKey,
-                        token: usuarioToken,
-                        user: nombreUsuario
-                    }
+                    tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
                 })
             );
+     
+   const chatElement = document.querySelector('chat-messenger');
+  if (chatElement) {
+            // Le inyectamos el objeto directamente a su propiedad nativa 'variables'
+            chatElement.variables = {
+                apikey: usuarioApiKey,
+                token: usuarioToken,
+                user: nombreUsuario
+            };
+            console.log("Variables inyectadas directamente al Web Component:", chatElement.variables);
+        }
+     
         });
 </script>
 <!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->

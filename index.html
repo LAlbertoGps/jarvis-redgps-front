@@ -9,17 +9,23 @@
 <body>
 
 <script>
-    window.addEventListener("chat-messenger-loaded", () => {
-      chatSdk.registerContext(
-        chatSdk.prebuilts.ces.createContext({
-          deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/828a3109-a4a6-44e0-908e-8c89517ae027",
-          tokenBroker: {
-            enableTokenBroker: true,
-            enableRecaptcha: false,
-          },
-        }),
-      );
-    });
+  const usuarioApiKey = "AQUI_PEGAS_TU_APIKEY_REAL"; 
+  const usuarioToken = "AQUI_PEGAS_TU_TOKEN_REAL";
+  const nombreUsuario = "Alejandro";
+  
+   window.addEventListener("chat-messenger-loaded", () => {
+            chatSdk.registerContext(
+                chatSdk.prebuilts.ces.createContext({
+                    deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/38bd2473-e1c4-4a70-ae2d-d5d2d233b095",
+                    tokenBroker: { enableTokenBroker: true, enableRecaptcha: false },
+                    sessionParameters: {
+                        apikey: usuarioApiKey,
+                        token: usuarioToken,
+                        user: nombreUsuario
+                    }
+                })
+            );
+        });
 </script>
 <!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->
 <chat-messenger

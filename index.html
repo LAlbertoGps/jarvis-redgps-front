@@ -1,35 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-   <script defer
-    src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js">
-  </script>
-  <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger-default.css">
-  <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.10/themes/chat-messenger-layout.css">
+<script defer
+  src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js">
+</script>
+<link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger-default.css">
+<link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.10/themes/chat-messenger-layout.css">
 </head>
 <body>
 
 <script>
     window.addEventListener("chat-messenger-loaded", () => {
-      const context = chatSdk.prebuilts.ces.createContext({
-        deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
-        tokenBroker: {
-          enableTokenBroker: true,
-          enableRecaptcha: false,
-        },
-      });
-
-      // Esta es la función clave para llenar el objeto 'variables' del payload
-      context.setQueryParameters({
-        parameters: {
-          token: "Ybmc7/dSGdQlc5FfGiBqWtDp+vi6Zgff6GofvmtII04tpjGAyyrKYQ==",
-          apikey: "1500251af10e18883f4da7041e357ed6",
-          user: "Usuario de Prueba",
-          idCliente_sistema: "12345"
-        }
-      });
-
-      chatSdk.registerContext(context);
+      chatSdk.registerContext(
+        chatSdk.prebuilts.ces.createContext({
+          deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
+          tokenBroker: {
+            enableTokenBroker: true,
+            enableRecaptcha: false,
+          },
+        }),
+      );
     });
 </script>
 <!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->

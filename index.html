@@ -12,23 +12,28 @@
 
 <script>
     window.addEventListener("chat-messenger-loaded", () => {
-      const context = chatSdk.prebuilts.ces.createContext({
-          deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/828a3109-a4a6-44e0-908e-8c89517ae027",
-          tokenBroker: {
-            enableTokenBroker: true,
-            enableRecaptcha: false,
-          },
-        });
-
-      // INYECTAR CREDENCIALES AQUÍ
-      // Estos datos se enviarán en el payload de cada mensaje
-      initialVariables:({
-        apikey: "1500251af10e18883f4da7041e357ed6",
+      // 1. Definimos las variables que queremos enviar
+      const myVariables = {
+         apikey: "1500251af10e18883f4da7041e357ed6",
         token: "Ybmc7/dSGdQlc5FfGiBqWtDp+vi6Zgff6GofvmtII04tpjGAyyrKYQ==",
         user: "alejandro"
+      };
+
+      // 2. Creamos el contexto base
+      const context = chatSdk.prebuilts.ces.createContext({
+        deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/828a3109-a4a6-44e0-908e-8c89517ae027",
+        tokenBroker: {
+          enableTokenBroker: true,
+          enableRecaptcha: false,
+        }
       });
 
+      // 3. Registramos el contexto
       chatSdk.registerContext(context);
+
+      // 4. Inyectamos las variables directamente al SDK de chat
+      // Esto fuerza al widget a incluir estos datos en el objeto 'variables' del JSON
+      chatSdk.setCustomContext(myVariables);
     });
 </script>
 <!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->

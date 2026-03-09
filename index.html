@@ -14,13 +14,13 @@
       chatSdk.registerContext(
         chatSdk.prebuilts.ces.createContext({
           deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/828a3109-a4a6-44e0-908e-8c89517ae027",
+          tokenBroker: {
+            enableTokenBroker: true,
+            enableRecaptcha: false,
+          },
         }),
       );
     });
-    // window.addEventListener("chat-messenger-loaded", () => {
-    //   const cm = document.querySelector("chat-messenger");
-    //   cm.accessToken = yourToken;
-    // });
 </script>
 <!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->
 <chat-messenger

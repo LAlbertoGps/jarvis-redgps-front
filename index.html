@@ -12,15 +12,23 @@
 
 <script>
     window.addEventListener("chat-messenger-loaded", () => {
-      chatSdk.registerContext(
-        chatSdk.prebuilts.ces.createContext({
+      const context = chatSdk.prebuilts.ces.createContext({
           deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/828a3109-a4a6-44e0-908e-8c89517ae027",
           tokenBroker: {
             enableTokenBroker: true,
             enableRecaptcha: false,
           },
-        }),
-      );
+        });
+
+      // INYECTAR CREDENCIALES AQUÍ
+      // Estos datos se enviarán en el payload de cada mensaje
+      context.setCustomContext({
+        apikey: "1500251af10e18883f4da7041e357ed6",
+        token: "Ybmc7/dSGdQlc5FfGiBqWtDp+vi6Zgff6GofvmtII04tpjGAyyrKYQ==",
+        usuario: "alejandro"
+      });
+
+      chatSdk.registerContext(context);
     });
 </script>
 <!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->

@@ -13,11 +13,7 @@
 <script>
     window.addEventListener("chat-messenger-loaded", () => {
       // 1. Definimos las variables que queremos enviar
-      const myVariables = {
-         apikey: "1500251af10e18883f4da7041e357ed6",
-        token: "Ybmc7/dSGdQlc5FfGiBqWtDp+vi6Zgff6GofvmtII04tpjGAyyrKYQ==",
-        user: "alejandro"
-      };
+
 
       // 2. Creamos el contexto base
       const context = chatSdk.prebuilts.ces.createContext({
@@ -28,12 +24,15 @@
         }
       });
 
+       chatSdk.updateSessionParams({
+           apikey: "1500251af10e18883f4da7041e357ed6",
+        token: "Ybmc7/dSGdQlc5FfGiBqWtDp+vi6Zgff6GofvmtII04tpjGAyyrKYQ==",
+        user: "alejandro"
+       });
+
       // 3. Registramos el contexto
       chatSdk.registerContext(context);
 
-      // 4. Inyectamos las variables directamente al SDK de chat
-      // Esto fuerza al widget a incluir estos datos en el objeto 'variables' del JSON
-      chatSdk.setCustomContext(myVariables);
     });
 </script>
 <!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->

@@ -1,59 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<script defer
-  src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js">
-</script>
-<link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger-default.css">
-<link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.10/themes/chat-messenger-layout.css">
+    <!-- Usar la misma versión para todos los recursos -->
+    <script defer
+        src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js">
+    </script>
+    <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger-default.css">
+    <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger-layout.css">
 </head>
 <body>
 
 <chat-messenger
-  url-allowlist="*"
-  color-scheme="dark"
+    url-allowlist="*"
+    color-scheme="dark"
 >
-  <chat-messenger-container
-    chat-title="Redgpsv2"
-    chat-title-icon="https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png"
-    enable-file-upload
-    enable-audio-input
-  >
-    <chat-reset-session-button
-      slot="titlebar-actions"
-      title-text="Start new chat"
-    ></chat-reset-session-button>
-  </chat-messenger-container>
+    <chat-messenger-container
+        chat-title="Redgpsv2"
+        chat-title-icon="https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png"
+        enable-file-upload
+        enable-audio-input
+    >
+        <chat-reset-session-button
+            slot="titlebar-actions"
+            title-text="Start new chat"
+        ></chat-reset-session-button>
+    </chat-messenger-container>
 </chat-messenger>
 
 <script>
-  window.addEventListener("chat-messenger-loaded", () => {
-
-    // 1️⃣ Registrar contexto
-    chatSdk.registerContext(
-      chatSdk.prebuilts.ces.createContext({
-        deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
-        tokenBroker: {
-          enableTokenBroker: true,
-          enableRecaptcha: false,
-        },
-      }),
-    );
-
-    // 2️⃣ Inyectar parámetros DESPUÉS de registrar el contexto
-    const messenger = document.querySelector("chat-messenger");
-    if (messenger) {
-      messenger.setQueryParameters({
-        parameters: {
-          token: "Juan Pérez",
-          apikey: "12345",
-          user: "premium"
+    // Esperar a que el SDK esté completamente cargado
+    function initializeChat() {
+        if (typeof chatSdk === 'undefined') {
+            console.log('⏳ Esperando a que chatSdk esté disponible...');
+            setTimeout(initializeChat, 100);
+            return;
         }
-      });
-      console.log("✅ Parámetros inyectados");
+
+        console.log('✅ chatSdk cargado correctamente');
+
+        try {
+            // 1️⃣ Crear el contexto con los parámetros de autenticación
+            const context = chatSdk.prebuilts.ces.createContext({
+                deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
+                tokenBroker: {
+                    enableTokenBroker: true,
+                    enableRecaptcha: false,
+                },
+                // 👇 Aquí van los parámetros de autenticación
+                userInfo: {
+                    token: "Juan Pérez",
+                    apikey: "12345",
+                    user: "premium"
+                }
+            });
+
+            // 2️⃣ Registrar el contexto
+            chatSdk.registerContext(context);
+            console.log('✅ Contexto registrado con autenticación');
+
+            // 3️⃣ Opcional: Verificar que el contexto se aplicó
+            const messenger = document.querySelector("chat-messenger");
+            if (messenger) {
+                // Escuchar eventos de conexión
+                messenger.addEventListener('chat-connected', () => {
+                    console.log('🔌 Chat conectado con autenticación');
+                });
+            }
+
+        } catch (error) {
+            console.error('❌ Error al inicializar:', error);
+        }
     }
 
-  });
+    // Iniciar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeChat);
+    } else {
+        initializeChat();
+    }
 </script>
 
 </body>

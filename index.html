@@ -1,50 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<script>
-  // ✅ Variables de sesión hardcodeadas para pruebas
-  const SESSION_VARIABLES = {
- user: "Prueba",
-    apikey: "1500251af10e18883f4da7041e357ed6",
-    token: "Ybmc7/dSGdQlc5FfGiBqWtDp+vi6Zgff6GofvmtII04tpjGAyyrKYQ=="
-  };
-
-  // 🔥 Interceptar fetch ANTES de que cargue el SDK
-  const _originalFetch = window.fetch;
-  window.fetch = async function(...args) {
-    let [url, options] = args;
-
-    // Solo interceptar llamadas al endpoint del agente
-    if (typeof url === "string" && url.includes("edgps-asistente-voz")) {
-      try {
-        if (options?.body) {
-          const body = JSON.parse(options.body);
-
-          // Buscar el bloque "variables" dentro de inputs[]
-          if (body?.inputs && Array.isArray(body.inputs)) {
-            const varBlock = body.inputs.find(i => "variables" in i);
-            if (varBlock) {
-              varBlock.variables = {
-                ...varBlock.variables,
-                ...SESSION_VARIABLES
-              };
-            } else {
-              body.inputs.push({ variables: SESSION_VARIABLES });
-            }
-          }
-
-          options.body = JSON.stringify(body);
-          console.log("📤 Payload interceptado y modificado:", body);
-        }
-      } catch (e) {
-        console.error("❌ Error al interceptar fetch:", e);
-      }
-    }
-
-    return _originalFetch.apply(this, [url, options]);
-  };
-</script>
-
 <script defer
   src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js">
 </script>
@@ -79,6 +35,14 @@
           enableTokenBroker: true,
           enableRecaptcha: false,
         },
+        // ✅ Aquí van las variables de sesión
+        configuration: {
+          variables: {
+            user: "Prueba",
+            apikey: "1500251af10e18883f4da7041e357ed6",
+            token: "Ybmc7/dSGdQlc5FfGiBqWtDp+vi6Zgff6GofvmtII04tpjGAyyrKYQ=="
+          }
+        }
       }),
     );
   });

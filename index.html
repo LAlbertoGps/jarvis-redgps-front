@@ -24,7 +24,10 @@
             );
      
    const chatElement = document.querySelector('chat-messenger');
+      console.log(chatElement);
   if (chatElement) {
+
+    console.log("entra a chatElement");
             // Le inyectamos el objeto directamente a su propiedad nativa 'variables'
             chatElement.variables = {
                 apikey: usuarioApiKey,

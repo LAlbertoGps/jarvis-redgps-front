@@ -28,7 +28,8 @@
 
 <script>
   window.addEventListener("chat-messenger-loaded", () => {
-    const messenger = document.querySelector('df-messenger');
+
+    // 1️⃣ Registrar contexto
     chatSdk.registerContext(
       chatSdk.prebuilts.ces.createContext({
         deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
@@ -36,16 +37,22 @@
           enableTokenBroker: true,
           enableRecaptcha: false,
         },
-        // ✅ Aquí van las variables de sesión
-        messenger.setQueryParameters({
-          parameters: {
-            "token": "Juan Pérez",
-            "apikey": "12345",
-            "user": "premium"
-          }
-        });
       }),
     );
+
+    // 2️⃣ Inyectar parámetros DESPUÉS de registrar el contexto
+    const messenger = document.querySelector("chat-messenger");
+    if (messenger) {
+      messenger.setQueryParameters({
+        parameters: {
+          token: "Juan Pérez",
+          apikey: "12345",
+          user: "premium"
+        }
+      });
+      console.log("✅ Parámetros inyectados");
+    }
+
   });
 </script>
 

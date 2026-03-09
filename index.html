@@ -1,31 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <script defer
-      src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js">
-    </script>
-    <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger-default.css">
-    <link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.10/themes/chat-messenger-layout.css">
+
+<!-- 🔥 INTERCEPTOR: debe ir ANTES que el SDK -->
+<script>
+  const SESSION_VARIABLES = {
+    token: "Ybmc7/dSGdQlc5FfGiBqWtDp+vI6Zgff6GofvmtlI04tpjGAyyrKYQ==",
+    apikey: "1500251af10e18883f4da7041e357ed6",
+    idCliente_sistema: "12345",
+    password: "tu_password"
+  };
+
+  const _originalFetch = window.fetch;
+  window.fetch = async function(...args) {
+    let [url, options] = args;
+
+    if (typeof url === "string" && url.includes("edgps-asistente-voz")) {
+      try {
+        if (options?.body) {
+          const body = JSON.parse(options.body);
+
+          if (body?.inputs && Array.isArray(body.inputs)) {
+            const varBlock = body.inputs.find(i => "variables" in i);
+            if (varBlock) {
+              varBlock.variables = { ...varBlock.variables, ...SESSION_VARIABLES };
+            } else {
+              body.inputs.push({ variables: SESSION_VARIABLES });
+            }
+          }
+
+          options = { ...options, body: JSON.stringify(body) };
+          console.log("📤 Payload modificado:", JSON.stringify(body, null, 2));
+        }
+      } catch (e) {
+        console.error("❌ Error interceptor:", e);
+      }
+    }
+
+    return _originalFetch.apply(this, [url, options]);
+  };
+</script>
+
+<script defer
+  src="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/chat-messenger.js">
+</script>
+<link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.12/themes/chat-messenger-default.css">
+<link rel="stylesheet" href="https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.10/themes/chat-messenger-layout.css">
 </head>
 <body>
 
-    <script>
-    window.addEventListener("chat-messenger-loaded", () => {
-      chatSdk.registerContext(
-        chatSdk.prebuilts.ces.createContext({
-          deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
-          tokenBroker: {
-            enableTokenBroker: true,
-            enableRecaptcha: false,
-          },
-        }),
-      );
-    });
-</script>
-<!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->
-<chat-messenger
-  url-allowlist="*"
->
+<chat-messenger url-allowlist="*" color-scheme="dark">
   <chat-messenger-container
     chat-title="Redgpsv2"
     chat-title-icon="https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png"
@@ -39,6 +63,19 @@
   </chat-messenger-container>
 </chat-messenger>
 
+<script>
+  window.addEventListener("chat-messenger-loaded", () => {
+    chatSdk.registerContext(
+      chatSdk.prebuilts.ces.createContext({
+        deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
+        tokenBroker: {
+          enableTokenBroker: true,
+          enableRecaptcha: false,
+        },
+      }),
+    );
+  });
+</script>
 
 </body>
 </html>

@@ -21,6 +21,17 @@
         }),
       );
     });
+
+  const messenger = document.querySelector('df-messenger');
+
+  // Configura las variables de sesión dinámicamente
+  messenger.setQueryParameters({
+    parameters: {
+      "nombre_usuario": "Juan Pérez",
+      "id_cliente": "12345",
+      "categoria": "premium"
+    }
+  });
 </script>
 <!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->
 <chat-messenger

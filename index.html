@@ -28,6 +28,7 @@
 
 <script>
   window.addEventListener("chat-messenger-loaded", () => {
+    const messenger = document.querySelector('df-messenger');
     chatSdk.registerContext(
       chatSdk.prebuilts.ces.createContext({
         deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
@@ -36,13 +37,13 @@
           enableRecaptcha: false,
         },
         // ✅ Aquí van las variables de sesión
-        configuration: {
-          variables: {
-            user: "Prueba",
-            apikey: "1500251af10e18883f4da7041e357ed6",
-            token: "Ybmc7/dSGdQlc5FfGiBqWtDp+vi6Zgff6GofvmtII04tpjGAyyrKYQ=="
+        messenger.setQueryParameters({
+          parameters: {
+            "nombre_usuario": "Juan Pérez",
+            "id_cliente": "12345",
+            "categoria": "premium"
           }
-        }
+        });
       }),
     );
   });

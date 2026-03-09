@@ -27,14 +27,16 @@
 </chat-messenger>
 
 <script>
-  const SESSION_PARAMS = {
-    user: "Prueba",
+  // ✅ Variables de sesión hardcodeadas para pruebas
+  const SESSION_VARIABLES = {
+     user: "Prueba",
     apikey: "1500251af10e18883f4da7041e357ed6",
     token: "Ybmc7/dSGdQlc5FfGiBqWtDp+vi6Zgff6GofvmtII04tpjGAyyrKYQ=="
   };
 
   window.addEventListener("chat-messenger-loaded", () => {
 
+    // 1️⃣ Registrar contexto
     chatSdk.registerContext(
       chatSdk.prebuilts.ces.createContext({
         deploymentName: "projects/edgps-asistente-voz/locations/us/apps/f47f3192-2be8-431e-8b5f-924a73a5d00a/deployments/7d5423a3-b3ff-48ab-9930-c17f91604c83",
@@ -45,15 +47,24 @@
       }),
     );
 
-    const messenger = document.querySelector("chat-messenger");
-    if (messenger) {
-      messenger.setQueryParameters({
-        parameters: SESSION_PARAMS
-      });
-      console.log("✅ Parámetros de sesión inyectados:", SESSION_PARAMS);
-    } else {
-      console.error("❌ No se encontró el elemento chat-messenger");
-    }
+    // 2️⃣ Interceptar cada request antes de enviarse y poblar "variables"
+    chatSdk.setRequestCallback((request) => {
+      if (request?.inputs) {
+        // Busca el bloque de variables dentro de inputs[]
+        const varBlock = request.inputs.find(i => "variables" in i);
+        if (varBlock) {
+          varBlock.variables = {
+            ...varBlock.variables,
+            ...SESSION_VARIABLES
+          };
+        } else {
+          // Si no existe el bloque, lo agrega
+          request.inputs.push({ variables: SESSION_VARIABLES });
+        }
+      }
+      console.log("📤 Payload enviado:", JSON.stringify(request, null, 2));
+      return request;
+    });
 
   });
 </script>
